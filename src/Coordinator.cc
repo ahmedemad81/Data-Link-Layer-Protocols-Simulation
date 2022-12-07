@@ -18,17 +18,30 @@ Define_Module(Coordinator);
 
 void Coordinator::initialize()
 {
-    char Node_ID,starting_Time;
-
-    ifstream fin("coordinator.txt");
-    fin>>Node_ID;
-    fin>>starting_Time;
-    EV<<Node_ID;
-    EV<<starting_Time;
-    EV<<"sadsads";
+    scheduleAt(simTime(), new cMessage(""));
 }
 
 void Coordinator::handleMessage(cMessage *msg)
 {
     // TODO - Generated method body
+
+    string s = "C:/omnetpp-5.6.2/samples/Project_Network/src/coordinator.txt";
+    ifstream file (s);
+    string x,nodeSelected,delay;
+    while (getline(file, x))
+    {
+       // Process x
+       // Get node number
+       nodeSelected = x[0];
+       delay = x[2];
+     }
+
+    cMessage* newMsg = new cMessage();
+    double d=stod(delay);
+    newMsg->setName(delay.c_str());
+    if(nodeSelected=="0")
+    sendDelayed(newMsg,d,"outNode0");
+    else if (nodeSelected=="1")
+    sendDelayed(newMsg,d,"outNode1");
+
 }

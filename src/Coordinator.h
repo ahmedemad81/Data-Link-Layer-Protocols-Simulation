@@ -17,7 +17,8 @@
 #define __PROJECTNETWORK_COORDINATOR_H_
 
 #include <omnetpp.h>
-#include "hoss.h"
+
+#include "headers.h"
 using namespace omnetpp;
 
 /**

@@ -17,7 +17,7 @@
 #define __PROJECT_NETWORK_NODE_H_
 
 #include <omnetpp.h>
-
+#include "headers.h"
 using namespace omnetpp;
 
 /**
