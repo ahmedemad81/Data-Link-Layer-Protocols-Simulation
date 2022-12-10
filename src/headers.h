@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -6,3 +7,9 @@
 #include "stdlib.h"
 #include "MyMessage_m.h"
 using namespace std;
+
+enum {
+    Data,
+    ACK,
+    NACK
+};

@@ -25,7 +25,7 @@ void Coordinator::handleMessage(cMessage *msg)
 {
     // TODO - Generated method body
 
-    string s = "C:/omnetpp-5.6.2/samples/Project_Network/src/coordinator.txt";
+    string s = "C:/omnetpp-5.6.2/samples/Project_Network/src/Input/coordinator.txt";
     ifstream file (s);
     string x,nodeSelected,delay;
     while (getline(file, x))
@@ -35,10 +35,10 @@ void Coordinator::handleMessage(cMessage *msg)
        nodeSelected = x[0];
        delay = x[2];
      }
-
     cMessage* newMsg = new cMessage();
     double d=stod(delay);
-    newMsg->setName(delay.c_str());
+    string z="Coordinator"+nodeSelected;
+    newMsg->setName(z.c_str());
     if(nodeSelected=="0")
     sendDelayed(newMsg,d,"outNode0");
     else if (nodeSelected=="1")

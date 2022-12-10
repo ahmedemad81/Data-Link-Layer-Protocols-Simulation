@@ -29,7 +29,7 @@
  *     \@customize(true);  // see the generated C++ header for more info
  *     char mHeader;
  *     string mPayload;
- *     char mTrailer;
+ *     string mTrailer;
  *     int mType;
  *     int ackNumber;
  * }
@@ -61,10 +61,11 @@
  */
 class MyMessage_Base : public ::omnetpp::cPacket
 {
+
   protected:
     char mHeader;
     ::omnetpp::opp_string mPayload;
-    char mTrailer;
+    ::omnetpp::opp_string mTrailer;
     int mType;
     int ackNumber;
 
@@ -83,7 +84,7 @@ class MyMessage_Base : public ::omnetpp::cPacket
     MyMessage_Base(const char *name=nullptr, short kind=0);
     MyMessage_Base(const MyMessage_Base& other);
     virtual ~MyMessage_Base();
-    virtual MyMessage_Base *dup() const override {throw omnetpp::cRuntimeError("You forgot to manually add a dup() function to class MyMessage");}
+
     virtual void parsimPack(omnetpp::cCommBuffer *b) const override;
     virtual void parsimUnpack(omnetpp::cCommBuffer *b) override;
 
@@ -92,8 +93,8 @@ class MyMessage_Base : public ::omnetpp::cPacket
     virtual void setMHeader(char mHeader);
     virtual const char * getMPayload() const;
     virtual void setMPayload(const char * mPayload);
-    virtual char getMTrailer() const;
-    virtual void setMTrailer(char mTrailer);
+    virtual const char * getMTrailer() const;
+    virtual void setMTrailer(const char * mTrailer);
     virtual int getMType() const;
     virtual void setMType(int mType);
     virtual int getAckNumber() const;

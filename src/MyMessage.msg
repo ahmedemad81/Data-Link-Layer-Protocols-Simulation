@@ -20,7 +20,7 @@ packet MyMessage {
     @customize(true);  // see the generated C++ header for more info
     char mHeader;
     string mPayload;
-    char mTrailer;
+    string mTrailer;
     int mType;
     int ackNumber;
 }

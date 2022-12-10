@@ -25,9 +25,20 @@ using namespace omnetpp;
  */
 class Node : public cSimpleModule
 {
+
+    vector<string> ErrorCode;
+    vector<string> MessageQueue;
+    int windowSize=0;
+    int receiver=0;
+    int sender=0;
   protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);
+    void ReadFile(string File);
+    string ByteStuffing(string S);
+    bitset<8> ParityCal(string S);
+    bool ErrorDetection(string S);
+
 };
 
 #endif

@@ -180,7 +180,6 @@ inline std::ostream& operator<<(std::ostream& out, const std::vector<T,A>& vec)
 MyMessage_Base::MyMessage_Base(const char *name, short kind) : ::omnetpp::cPacket(name,kind)
 {
     this->mHeader = 0;
-    this->mTrailer = 0;
     this->mType = 0;
     this->ackNumber = 0;
 }
@@ -251,12 +250,12 @@ void MyMessage_Base::setMPayload(const char * mPayload)
     this->mPayload = mPayload;
 }
 
-char MyMessage_Base::getMTrailer() const
+const char * MyMessage_Base::getMTrailer() const
 {
-    return this->mTrailer;
+    return this->mTrailer.c_str();
 }
 
-void MyMessage_Base::setMTrailer(char mTrailer)
+void MyMessage_Base::setMTrailer(const char * mTrailer)
 {
     this->mTrailer = mTrailer;
 }
@@ -409,7 +408,7 @@ const char *MyMessageDescriptor::getFieldTypeString(int field) const
     static const char *fieldTypeStrings[] = {
         "char",
         "string",
-        "char",
+        "string",
         "int",
         "int",
     };
@@ -482,7 +481,7 @@ std::string MyMessageDescriptor::getFieldValueAsString(void *object, int field, 
     switch (field) {
         case 0: return long2string(pp->getMHeader());
         case 1: return oppstring2string(pp->getMPayload());
-        case 2: return long2string(pp->getMTrailer());
+        case 2: return oppstring2string(pp->getMTrailer());
         case 3: return long2string(pp->getMType());
         case 4: return long2string(pp->getAckNumber());
         default: return "";
@@ -501,7 +500,7 @@ bool MyMessageDescriptor::setFieldValueAsString(void *object, int field, int i, 
     switch (field) {
         case 0: pp->setMHeader(string2long(value)); return true;
         case 1: pp->setMPayload((value)); return true;
-        case 2: pp->setMTrailer(string2long(value)); return true;
+        case 2: pp->setMTrailer((value)); return true;
         case 3: pp->setMType(string2long(value)); return true;
         case 4: pp->setAckNumber(string2long(value)); return true;
         default: return false;
