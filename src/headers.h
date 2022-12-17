@@ -11,5 +11,7 @@ using namespace std;
 enum {
     Data,
     ACK,
-    NACK
+    NACK,
+    Self_Message,
+    coordinator
 };

@@ -23,34 +23,48 @@ void Node::initialize()
 
 void Node::handleMessage(cMessage *msg)
 {
+    MyMessage_Base* recMsg= (MyMessage_Base *) msg;
 
-    if (!strcmp(msg->getName(),"Coordinator0"))
+    if(recMsg->getMType()==coordinator)
     {
+        if (!strcmp(recMsg->getMPayload(),"Coordinator0"))
+        {
 
-        string s = "C:/omnetpp-5.6.2/samples/Project_Network/src/Input/Node0.txt";
-        ReadFile(s);
-        sender=0;
-        receiver=1;
-        scheduleAt(simTime(), new cMessage(""));
+            string s = "C:/omnetpp-5.6.2/samples/Project_Network/src/Input/Node0.txt";
+            ReadFile(s);
+            //scheduleAt(simTime(), new cMessage(""));
+        }
+        else if (!strcmp(recMsg->getMPayload(),"Coordinator1"))
+        {
+            string s = "C:/omnetpp-5.6.2/samples/Project_Network/src/Input/Node1.txt";
+            ReadFile(s);
+            //scheduleAt(simTime(), new cMessage(""));
+        }
     }
-    else if (!strcmp(msg->getName(),"Coordinator1"))
-    {
-        string s = "C:/omnetpp-5.6.2/samples/Project_Network/src/Input/Node1.txt";
-        ReadFile(s);
-        sender=1;
-        receiver=0;
-        scheduleAt(simTime(), new cMessage(""));
-    }
-    else
-    {
-        MyMessage_Base *mymsg = new MyMessage_Base();
-        string ByteStuffed= ByteStuffing(MessageQueue[0]);
-        bitset <8> Parity=ParityCal(ByteStuffed);
 
-        mymsg->setMType(Data);
-        mymsg->setMPayload(ByteStuffed.c_str());
-        mymsg->setMTrailer((Parity.to_string()).c_str());
-        send(mymsg,"out");
+    else if (recMsg->getMType()==Data)
+    {
+
+        // Receiver Code
+        cout << "Received Message with id = "<< recMsg->getMHeader() <<endl;
+        if (recMsg->getMHeader()==currentSeqNum)
+        {
+            ReceiveData(recMsg);
+            currentSeqNum++;
+        }
+        else
+        {
+
+        }
+
+    }
+    else if (recMsg->getMType()==ACK)
+    {
+
+    }
+    else if (recMsg->getMType()==Self_Message)
+    {
+
     }
 
 }
@@ -88,6 +102,21 @@ string Node::ByteStuffing(string S)
     return newString;
 }
 
+string Node::RemoveByteStuffing(string S)
+{
+    string newString = S.substr(1,S.size()-2);
+    for(int i= 0 ; i< S.size();i++)
+    {
+       if (S[i] =='/')
+          {
+             continue;
+          }
+        newString.push_back(S[i]);
+
+    }
+    return newString;
+}
+
 bitset<8> Node:: ParityCal(string S)
 {
     vector< bitset<8> > bitVector;
@@ -112,4 +141,28 @@ bool Node:: ErrorDetection(string S)
     else
         return false;
 }
+
+void Node:: ReceiveData(MyMessage_Base* recMsg)
+{
+    MyMessage_Base* sendMsg=new MyMessage_Base();
+
+    string msgPayLoad=recMsg->getMPayload();
+    bitset<8> msgParity=recMsg->getMTrailer();
+    bool header=ErrorDetection(msgParity.to_string());
+
+    if(header==0)
+        sendMsg->setMHeader(NACK);
+    else
+        sendMsg->setMHeader(ACK);
+
+    if(randLP>(getParentModule()->par("LP").doubleValue()/10))
+    {
+        sendDelayed((cMessage*)recMsg,par("TD").doubleValue(),"out");
+    }
+
+    cancelAndDelete(sendMsg);
+
+
+}
+
 

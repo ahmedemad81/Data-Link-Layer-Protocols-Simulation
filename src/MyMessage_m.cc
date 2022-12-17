@@ -230,12 +230,12 @@ void MyMessage_Base::parsimUnpack(omnetpp::cCommBuffer *b)
     doParsimUnpacking(b,this->ackNumber);
 }
 
-char MyMessage_Base::getMHeader() const
+int MyMessage_Base::getMHeader() const
 {
     return this->mHeader;
 }
 
-void MyMessage_Base::setMHeader(char mHeader)
+void MyMessage_Base::setMHeader(int mHeader)
 {
     this->mHeader = mHeader;
 }
@@ -250,12 +250,12 @@ void MyMessage_Base::setMPayload(const char * mPayload)
     this->mPayload = mPayload;
 }
 
-const char * MyMessage_Base::getMTrailer() const
+bits& MyMessage_Base::getMTrailer()
 {
-    return this->mTrailer.c_str();
+    return this->mTrailer;
 }
 
-void MyMessage_Base::setMTrailer(const char * mTrailer)
+void MyMessage_Base::setMTrailer(const bits& mTrailer)
 {
     this->mTrailer = mTrailer;
 }
@@ -360,7 +360,7 @@ unsigned int MyMessageDescriptor::getFieldTypeFlags(int field) const
     static unsigned int fieldTypeFlags[] = {
         FD_ISEDITABLE,
         FD_ISEDITABLE,
-        FD_ISEDITABLE,
+        FD_ISCOMPOUND,
         FD_ISEDITABLE,
         FD_ISEDITABLE,
     };
@@ -406,9 +406,9 @@ const char *MyMessageDescriptor::getFieldTypeString(int field) const
         field -= basedesc->getFieldCount();
     }
     static const char *fieldTypeStrings[] = {
-        "char",
+        "int",
         "string",
-        "string",
+        "bits",
         "int",
         "int",
     };
@@ -481,7 +481,7 @@ std::string MyMessageDescriptor::getFieldValueAsString(void *object, int field, 
     switch (field) {
         case 0: return long2string(pp->getMHeader());
         case 1: return oppstring2string(pp->getMPayload());
-        case 2: return oppstring2string(pp->getMTrailer());
+
         case 3: return long2string(pp->getMType());
         case 4: return long2string(pp->getAckNumber());
         default: return "";
@@ -500,7 +500,6 @@ bool MyMessageDescriptor::setFieldValueAsString(void *object, int field, int i, 
     switch (field) {
         case 0: pp->setMHeader(string2long(value)); return true;
         case 1: pp->setMPayload((value)); return true;
-        case 2: pp->setMTrailer((value)); return true;
         case 3: pp->setMType(string2long(value)); return true;
         case 4: pp->setAckNumber(string2long(value)); return true;
         default: return false;
@@ -516,6 +515,7 @@ const char *MyMessageDescriptor::getFieldStructName(int field) const
         field -= basedesc->getFieldCount();
     }
     switch (field) {
+        case 2: return omnetpp::opp_typename(typeid(bits));
         default: return nullptr;
     };
 }
@@ -530,6 +530,7 @@ void *MyMessageDescriptor::getFieldStructValuePointer(void *object, int field, i
     }
     MyMessage_Base *pp = (MyMessage_Base *)object; (void)pp;
     switch (field) {
+        case 2: return (void *)(&pp->getMTrailer()); break;
         default: return nullptr;
     }
 }

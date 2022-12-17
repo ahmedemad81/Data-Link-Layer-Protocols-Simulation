@@ -16,11 +16,17 @@
 //
 // TODO generated message class
 //
+cplusplus {{
+#include "headers.h"
+typedef  bitset<8> bits;
+}}
+class noncobject bits;
+
 packet MyMessage {
     @customize(true);  // see the generated C++ header for more info
-    char mHeader;
+    int mHeader;
     string mPayload;
-    string mTrailer;
+    bits mTrailer;
     int mType;
     int ackNumber;
 }

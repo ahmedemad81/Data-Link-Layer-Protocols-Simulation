@@ -28,17 +28,25 @@ class Node : public cSimpleModule
 
     vector<string> ErrorCode;
     vector<string> MessageQueue;
+
+    volatile int randLP=int(uniform(0,10));
+    //Window variables
     int windowSize=0;
-    int receiver=0;
-    int sender=0;
+    int left=0;
+    int right=0;
+
+    //Go Back N
+    int currentSeqNum=0;
+
   protected:
     virtual void initialize();
     virtual void handleMessage(cMessage *msg);
     void ReadFile(string File);
     string ByteStuffing(string S);
+    string RemoveByteStuffing(string S);
     bitset<8> ParityCal(string S);
     bool ErrorDetection(string S);
-
+    void ReceiveData(MyMessage_Base* recMsg);
 };
 
 #endif

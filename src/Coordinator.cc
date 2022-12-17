@@ -35,13 +35,18 @@ void Coordinator::handleMessage(cMessage *msg)
        nodeSelected = x[0];
        delay = x[2];
      }
-    cMessage* newMsg = new cMessage();
     double d=stod(delay);
     string z="Coordinator"+nodeSelected;
-    newMsg->setName(z.c_str());
+
+    MyMessage_Base* newMsg=new MyMessage_Base();
+    newMsg->setMType(coordinator);
+    newMsg->setMPayload(z.c_str());
+
     if(nodeSelected=="0")
-    sendDelayed(newMsg,d,"outNode0");
+    sendDelayed((cMessage*)newMsg,d,"outNode0");
     else if (nodeSelected=="1")
-    sendDelayed(newMsg,d,"outNode1");
+    sendDelayed((cMessage*)newMsg,d,"outNode1");
+
+    cancelAndDelete(msg);
 
 }

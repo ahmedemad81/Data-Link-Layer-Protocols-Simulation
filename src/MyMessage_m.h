@@ -18,18 +18,20 @@
 
 
 
+// cplusplus {{
+#include "headers.h"
+typedef  std::bitset<8> bits;
+// }}
+
 /**
- * Class generated from <tt>MyMessage.msg:19</tt> by nedtool.
+ * Class generated from <tt>MyMessage.msg:25</tt> by nedtool.
  * <pre>
- * //
- * // TODO generated message class
- * //
  * packet MyMessage
  * {
  *     \@customize(true);  // see the generated C++ header for more info
- *     char mHeader;
+ *     int mHeader;
  *     string mPayload;
- *     string mTrailer;
+ *     bits mTrailer;
  *     int mType;
  *     int ackNumber;
  * }
@@ -61,11 +63,10 @@
  */
 class MyMessage_Base : public ::omnetpp::cPacket
 {
-
   protected:
-    char mHeader;
+    int mHeader;
     ::omnetpp::opp_string mPayload;
-    ::omnetpp::opp_string mTrailer;
+    bits mTrailer;
     int mType;
     int ackNumber;
 
@@ -74,27 +75,27 @@ class MyMessage_Base : public ::omnetpp::cPacket
 
   protected:
     // protected and unimplemented operator==(), to prevent accidental usage
-    bool operator==(const MyMessage_Base&);
-    // make constructors protected to avoid instantiation
 
-    // make assignment operator protected to force the user override it
-    MyMessage_Base& operator=(const MyMessage_Base& other);
 
   public:
-    MyMessage_Base(const char *name=nullptr, short kind=0);
-    MyMessage_Base(const MyMessage_Base& other);
+    bool operator==(const MyMessage_Base&);
+        // make constructors protected to avoid instantiation
+        MyMessage_Base(const char *name=nullptr, short kind=0);
+        MyMessage_Base(const MyMessage_Base& other);
+        // make assignment operator protected to force the user override it
+        MyMessage_Base& operator=(const MyMessage_Base& other);
     virtual ~MyMessage_Base();
-
     virtual void parsimPack(omnetpp::cCommBuffer *b) const override;
     virtual void parsimUnpack(omnetpp::cCommBuffer *b) override;
 
     // field getter/setter methods
-    virtual char getMHeader() const;
-    virtual void setMHeader(char mHeader);
+    virtual int getMHeader() const;
+    virtual void setMHeader(int mHeader);
     virtual const char * getMPayload() const;
     virtual void setMPayload(const char * mPayload);
-    virtual const char * getMTrailer() const;
-    virtual void setMTrailer(const char * mTrailer);
+    virtual bits& getMTrailer();
+    virtual const bits& getMTrailer() const {return const_cast<MyMessage_Base*>(this)->getMTrailer();}
+    virtual void setMTrailer(const bits& mTrailer);
     virtual int getMType() const;
     virtual void setMType(int mType);
     virtual int getAckNumber() const;

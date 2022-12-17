@@ -20,6 +20,7 @@ package projectnetwork;
 //
 simple Node
 {
+
     gates:
         input inCoordinator;
         input inNode;
