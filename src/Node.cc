@@ -15,6 +15,7 @@
 
 #include "Node.h"
 Define_Module(Node);
+ofstream MyFile("out.txt");
 
 void Node::initialize()
 {
@@ -46,7 +47,7 @@ void Node::handleMessage(cMessage *msg)
     {
 
         // Receiver Code
-        cout << "Received Message with id = "<< recMsg->getMHeader() <<endl;
+        //cout << "Received Message with id = "<< recMsg->getMHeader() <<endl;
         if (recMsg->getMHeader()==currentSeqNum)
         {
             ReceiveData(recMsg);
@@ -54,17 +55,28 @@ void Node::handleMessage(cMessage *msg)
         }
         else
         {
-
+            MyMessage_Base* ackMsg = new MyMessage_Base();  // (sending same ack (seq -1 ) to sender) ???
+            ackMsg->setMHeader(currentSeqNum);
+            ackMsg->setMType(ACK);
+            sendDelayed((cMessage *)ackMsg, getParentModule()->par("TD").doubleValue(), "out");
         }
 
     }
     else if (recMsg->getMType()==ACK)
     {
-
+        //send
     }
-    else if (recMsg->getMType()==Self_Message)
+    else if (recMsg->getMType()==SelfMessage)
     {
-
+        //Processing time then send
+    }
+    else if(recMsg->getMType()==TimeOut)
+    {
+        if (recMsg->getMHeader()==currentMsg)
+        {
+            //send again
+        }
+        cancelAndDelete(msg);
     }
 
 }
@@ -163,6 +175,13 @@ void Node:: ReceiveData(MyMessage_Base* recMsg)
     cancelAndDelete(sendMsg);
 
 
+}
+
+void Node::Timer(){
+    MyMessage_Base *myMsg = new MyMessage_Base();
+    myMsg->setMType(TimeOut);
+    myMsg->setMHeader(currentMsg);
+    scheduleAt(simTime() + getParentModule()->par("TO").doubleValue(), (cMessage*)myMsg);
 }
 
 

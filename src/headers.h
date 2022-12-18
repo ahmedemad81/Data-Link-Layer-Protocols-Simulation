@@ -12,6 +12,7 @@ enum {
     Data,
     ACK,
     NACK,
-    Self_Message,
+    SelfMessage,
+    TimeOut,
     coordinator
 };

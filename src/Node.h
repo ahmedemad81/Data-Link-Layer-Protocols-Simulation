@@ -29,7 +29,7 @@ class Node : public cSimpleModule
     vector<string> ErrorCode;
     vector<string> MessageQueue;
 
-    volatile int randLP=int(uniform(0,10));
+    volatile int randLP=int(uniform(1,10));
     //Window variables
     int windowSize=0;
     int left=0;
@@ -37,6 +37,7 @@ class Node : public cSimpleModule
 
     //Go Back N
     int currentSeqNum=0;
+    int currentMsg=0;
 
   protected:
     virtual void initialize();
@@ -47,6 +48,7 @@ class Node : public cSimpleModule
     bitset<8> ParityCal(string S);
     bool ErrorDetection(string S);
     void ReceiveData(MyMessage_Base* recMsg);
+    void Timer();
 };
 
 #endif
