@@ -47,7 +47,6 @@ void Node::handleMessage(cMessage *msg)
     {
 
         // Receiver Code
-        //cout << "Received Message with id = "<< recMsg->getMHeader() <<endl;
         if (recMsg->getMHeader()==currentSeqNum)
         {
             ReceiveData(recMsg);
@@ -58,17 +57,23 @@ void Node::handleMessage(cMessage *msg)
             MyMessage_Base* ackMsg = new MyMessage_Base();  // (sending same ack (seq -1 ) to sender) ???
             ackMsg->setMHeader(currentSeqNum);
             ackMsg->setMType(ACK);
-            sendDelayed((cMessage *)ackMsg, getParentModule()->par("TD").doubleValue(), "out");
+            if(randLP>(getParentModule()->par("LP").doubleValue()/10))
+               {
+                //Adding Process time as a self message
+                scheduleAt(simTime() + getParentModule()->par("PT").doubleValue(), (cMessage*)ackMsg);
+               }
+            cancelAndDelete(ackMsg);
         }
 
     }
     else if (recMsg->getMType()==ACK)
     {
-        //send
+        //sender code
     }
-    else if (recMsg->getMType()==SelfMessage)
+    else if (msg->isSelfMessage())
     {
         //Processing time then send
+        sendDelayed((cMessage *)recMsg, getParentModule()->par("TD").doubleValue(), "out");
     }
     else if(recMsg->getMType()==TimeOut)
     {
@@ -169,7 +174,8 @@ void Node:: ReceiveData(MyMessage_Base* recMsg)
 
     if(randLP>(getParentModule()->par("LP").doubleValue()/10))
     {
-        sendDelayed((cMessage*)recMsg,par("TD").doubleValue(),"out");
+        //Adding Process time as a self message
+        scheduleAt(simTime() + getParentModule()->par("PT").doubleValue(), (cMessage*)recMsg);
     }
 
     cancelAndDelete(sendMsg);
@@ -181,7 +187,10 @@ void Node::Timer(){
     MyMessage_Base *myMsg = new MyMessage_Base();
     myMsg->setMType(TimeOut);
     myMsg->setMHeader(currentMsg);
+    //Timer gets expired after TO
     scheduleAt(simTime() + getParentModule()->par("TO").doubleValue(), (cMessage*)myMsg);
+
+    cancelAndDelete(myMsg);
 }
 
 
