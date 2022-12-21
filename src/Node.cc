@@ -45,7 +45,6 @@ void Node::handleMessage(cMessage *msg)
 
     else if (recMsg->getMType()==Data)
     {
-
         // Receiver Code
         if (recMsg->getMHeader()==currentSeqNum)
         {
@@ -54,14 +53,20 @@ void Node::handleMessage(cMessage *msg)
         }
         else
         {
-            MyMessage_Base* ackMsg = new MyMessage_Base();  // (sending same ack (seq -1 ) to sender) ???
-            ackMsg->setMHeader(currentSeqNum);
+            MyMessage_Base* ackMsg = new MyMessage_Base();  // (sending same ack (seq -1 ) to sender
+            ackMsg->setMHeader(currentSeqNum-1);
             ackMsg->setMType(ACK);
-            if(randLP>(getParentModule()->par("LP").doubleValue()/10))
+            string type="";
+            string Loss="Yes";
+            if(randLP>(par("LP").doubleValue()))
                {
-                //Adding Process time as a self message
-                scheduleAt(simTime() + getParentModule()->par("PT").doubleValue(), (cMessage*)ackMsg);
+                  //Adding Process time as a self message
+                  sendDelayed((cMessage *)recMsg, par("PT").doubleValue() + par("TD").doubleValue(), "out");
+                  Loss="No";
                }
+            MyFile << "At time "<< simTime()+par("PT").doubleValue() <<", "<<getName()<<" sending "<< type << " with number["<<recMsg->getMHeader()<<"], loss ["<< Loss <<" ]"<<endl;
+
+
             cancelAndDelete(ackMsg);
         }
 
@@ -69,11 +74,6 @@ void Node::handleMessage(cMessage *msg)
     else if (recMsg->getMType()==ACK)
     {
         //sender code
-    }
-    else if (msg->isSelfMessage())
-    {
-        //Processing time then send
-        sendDelayed((cMessage *)recMsg, getParentModule()->par("TD").doubleValue(), "out");
     }
     else if(recMsg->getMType()==TimeOut)
     {
@@ -95,7 +95,7 @@ void Node::ReadFile(string File){
             ErrorCode.push_back(x.substr(0, 4));
             MessageQueue.push_back(x.substr(5));
           }
-          windowSize=getParentModule()->par("WS").intValue()-1;
+          windowSize=par("WS").intValue()-1;
 
 }
 
@@ -166,21 +166,32 @@ void Node:: ReceiveData(MyMessage_Base* recMsg)
     string msgPayLoad=recMsg->getMPayload();
     bitset<8> msgParity=recMsg->getMTrailer();
     bool header=ErrorDetection(msgParity.to_string());
-
+    string type="";
+    string Loss="Yes";
     if(header==0)
-        sendMsg->setMHeader(NACK);
-    else
-        sendMsg->setMHeader(ACK);
-
-    if(randLP>(getParentModule()->par("LP").doubleValue()/10))
     {
-        //Adding Process time as a self message
-        scheduleAt(simTime() + getParentModule()->par("PT").doubleValue(), (cMessage*)recMsg);
+        sendMsg->setMHeader(NACK);
+        sendMsg->setMType(NACK);
+        type="NACK";
+    }
+    else
+    {
+        sendMsg->setMHeader(ACK);
+        sendMsg->setMType(ACK);
+        type="ACK";
     }
 
+    if(randLP>(par("LP").doubleValue()))
+    {
+        //Adding Process time as a self message
+        sendDelayed((cMessage *)recMsg, par("PT").doubleValue() + par("TD").doubleValue(), "out");
+        Loss="No";
+    }
+
+    MyFile << "At time "<< simTime()+par("PT").doubleValue() <<", "<<getName()<<" sending "<< type << " with number["<<recMsg->getMHeader()<<"], loss ["<< Loss <<" ]"<<endl;
+
+
     cancelAndDelete(sendMsg);
-
-
 }
 
 void Node::Timer(){
@@ -188,7 +199,7 @@ void Node::Timer(){
     myMsg->setMType(TimeOut);
     myMsg->setMHeader(currentMsg);
     //Timer gets expired after TO
-    scheduleAt(simTime() + getParentModule()->par("TO").doubleValue(), (cMessage*)myMsg);
+    scheduleAt(simTime() + par("TO").doubleValue(), (cMessage*)myMsg);
 
     cancelAndDelete(myMsg);
 }

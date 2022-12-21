@@ -20,7 +20,15 @@ package projectnetwork;
 //
 simple Node
 {
-
+    parameters:
+        int WS=default(5);
+		int	TO=default(10);
+		double PT=default(0.5);
+		double TD=default(1);
+		double ED=default(4);
+		double DD=default(0.1);
+		double LP=default(10);
+        
     gates:
         input inCoordinator;
         input inNode;
