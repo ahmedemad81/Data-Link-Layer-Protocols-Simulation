@@ -13,5 +13,6 @@ enum {
     ACK,
     NACK,
     TimeOut,
-    coordinator
+    coordinator,
+    DelayedMessage
 };

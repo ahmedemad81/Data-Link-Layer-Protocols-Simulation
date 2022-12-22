@@ -1,2 +1,10 @@
-0000 ahmed
-1111 hoss
+0000 no error
+0010 duplication
+0000 kopp
+0000 deee
+0000 five
+0000 ahme
+0000 noer
+0000 yalahawy
+0000 maarfsh
+0000 five

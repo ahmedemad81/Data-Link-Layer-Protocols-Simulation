@@ -31,13 +31,13 @@ class Node : public cSimpleModule
 
     volatile int randLP=int(uniform(0,100));
     //Window variables
-    int windowSize=0;
+    int windowSize= 4;
     int left=0;
-    int right=0;
+    int right= 4;
 
     //Go Back N
-    int currentSeqNum=0;
-    int currentMsg=0;
+    int currentSeqNum=0; //receiver
+    int currentMsg=0; //?
 
   protected:
     virtual void initialize();
@@ -46,9 +46,11 @@ class Node : public cSimpleModule
     string ByteStuffing(string S);
     string RemoveByteStuffing(string S);
     bitset<8> ParityCal(string S);
-    bool ErrorDetection(string S);
+    bool ErrorDetection(string S, std::bitset<8> trailer);
     void ReceiveData(MyMessage_Base* recMsg);
     void Timer();
+    void SendData(int i);
+    string ModifyMessage(string message);
 };
 
 #endif

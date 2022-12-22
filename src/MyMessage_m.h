@@ -31,7 +31,7 @@ typedef  std::bitset<8> bits;
  *     \@customize(true);  // see the generated C++ header for more info
  *     int mHeader;
  *     string mPayload;
- *     bits mTrailer;
+ *     bits mTrailer; //parity
  *     int mType;
  *     int ackNumber;
  * }
@@ -75,16 +75,17 @@ class MyMessage_Base : public ::omnetpp::cPacket
 
   protected:
     // protected and unimplemented operator==(), to prevent accidental usage
+    bool operator==(const MyMessage_Base&);
+    // make constructors protected to avoid instantiation
 
+    // make assignment operator protected to force the user override it
+    MyMessage_Base& operator=(const MyMessage_Base& other);
 
   public:
-    bool operator==(const MyMessage_Base&);
-        // make constructors protected to avoid instantiation
-        MyMessage_Base(const char *name=nullptr, short kind=0);
-        MyMessage_Base(const MyMessage_Base& other);
-        // make assignment operator protected to force the user override it
-        MyMessage_Base& operator=(const MyMessage_Base& other);
     virtual ~MyMessage_Base();
+    MyMessage_Base(const char *name=nullptr, short kind=0);
+    MyMessage_Base(const MyMessage_Base& other);
+    //virtual MyMessage_Base *dup() const override {throw omnetpp::cRuntimeError("You forgot to manually add a dup() function to class MyMessage");}
     virtual void parsimPack(omnetpp::cCommBuffer *b) const override;
     virtual void parsimUnpack(omnetpp::cCommBuffer *b) override;
 

@@ -30,59 +30,95 @@ void Node::handleMessage(cMessage *msg)
     {
         if (!strcmp(recMsg->getMPayload(),"Coordinator0"))
         {
-
-            string s = "C:/omnetpp-5.6.2/samples/Project_Network/src/Input/Node0.txt";
+            string s = "D:/UNI/CCE sem 5/Networks project/Data-Link-Layer-Protocols-Simulation/src/Input/Node0.txt";
             ReadFile(s);
+            for(int i = left; i< right + 1; i++)
+            {
+                SendData(i);
+            }
+            Timer();
             //scheduleAt(simTime(), new cMessage(""));
         }
         else if (!strcmp(recMsg->getMPayload(),"Coordinator1"))
         {
-            string s = "C:/omnetpp-5.6.2/samples/Project_Network/src/Input/Node1.txt";
+            string s = "D:/UNI/CCE sem 5/Networks project/Data-Link-Layer-Protocols-Simulation/src/Input/Node1.txt";
             ReadFile(s);
+            for(int i = left; i < right + 1; i++)
+              {
+                  SendData(i);
+              }
+            Timer();
             //scheduleAt(simTime(), new cMessage(""));
         }
     }
 
     else if (recMsg->getMType()==Data)
     {
+        EV<<"receiver received data"<<std::endl;
         // Receiver Code
         if (recMsg->getMHeader()==currentSeqNum)
         {
+            EV << "this is the current seqNum at receiver if its correct: "<<currentSeqNum << std::endl;
             ReceiveData(recMsg);
-            currentSeqNum++;
         }
         else
         {
+            EV << "It is not correct data" << std::endl;
+            EV << "this is the wrong receieved seq number: "<<recMsg->getMHeader()<<std::endl;
             MyMessage_Base* ackMsg = new MyMessage_Base();  // (sending same ack (seq -1 ) to sender
-            ackMsg->setMHeader(currentSeqNum-1);
-            ackMsg->setMType(ACK);
-            string type="";
+            ackMsg->setMHeader(currentSeqNum);
+            ackMsg->setMType(NACK);
             string Loss="Yes";
             if(randLP>(par("LP").doubleValue()))
                {
                   //Adding Process time as a self message
-                  sendDelayed((cMessage *)recMsg, par("PT").doubleValue() + par("TD").doubleValue(), "out");
+                  sendDelayed((cMessage *)ackMsg, par("PT").doubleValue() + par("TD").doubleValue(), "out");
                   Loss="No";
                }
-            MyFile << "At time "<< simTime()+par("PT").doubleValue() <<", "<<getName()<<" sending "<< type << " with number["<<recMsg->getMHeader()<<"], loss ["<< Loss <<" ]"<<endl;
+            MyFile << "At time "<< simTime()+par("PT").doubleValue() <<", "<<getName()<<" sending NACK" << " with number["<<recMsg->getMHeader()<<"], loss ["<< Loss <<" ]"<<endl;
 
 
-            cancelAndDelete(ackMsg);
+            //cancelAndDelete(ackMsg);
         }
 
     }
     else if (recMsg->getMType()==ACK)
     {
+        EV<<"Ack received"<< std::endl;
+        EV << recMsg->getMHeader() << std::endl;
         //sender code
+        if(recMsg->getMHeader() == left)
+        {
+            EV<<"correct Ack received"<< std::endl;
+            left++;
+            right++;
+            currentMsg++;
+        }
+        else
+        {
+            EV << "received Ack wrong: " << recMsg->getMHeader();
+        }
+        EV << "new left:" << left << std::endl;
+        EV << "new right:" << right << std::endl;
     }
     else if(recMsg->getMType()==TimeOut)
     {
-        if (recMsg->getMHeader()==currentMsg)
-        {
-            //send again
-        }
-        cancelAndDelete(msg);
+        EV<<"WE GOT A TIMEOUT"<< std::endl;
+        //if (recMsg->getMHeader()==currentMsg) //revert comment
+        //{
+           for(int i = left; i< right + 1; i++)
+           {
+               SendData(i);
+           }
+            Timer();
+        //}
+        //cancelAndDelete(msg);
     }
+    else if(recMsg->getMType() == DelayedMessage)
+    {
+        recMsg->setMType(Data);
+        sendDelayed((cMessage *)recMsg, par("TD").doubleValue(), "out");
+     }
 
 }
 
@@ -150,10 +186,13 @@ bitset<8> Node:: ParityCal(string S)
     return parityByte;
 }
 
-bool Node:: ErrorDetection(string S)
+bool Node:: ErrorDetection(string S, std::bitset<8> trailer)
 {
     bitset<8> Result=ParityCal(S);
-    if(Result==0)
+    bitset<8> parityByte = Result ^ trailer;
+    //EV<<"message sent to error detection: "<<S<<std::endl;
+    //EV<<"parity calc: "<<Result<<std::endl;
+    if(parityByte==0)
         return true;
     else
         return false;
@@ -161,47 +200,155 @@ bool Node:: ErrorDetection(string S)
 
 void Node:: ReceiveData(MyMessage_Base* recMsg)
 {
+    EV << "Message received:" << recMsg->getMPayload() << std::endl;
+    EV << "this is the received sequence number: " << recMsg->getMHeader() << std::endl;
+
     MyMessage_Base* sendMsg=new MyMessage_Base();
 
     string msgPayLoad=recMsg->getMPayload();
     bitset<8> msgParity=recMsg->getMTrailer();
-    bool header=ErrorDetection(msgParity.to_string());
+    bool header=ErrorDetection(msgPayLoad,msgParity);
     string type="";
     string Loss="Yes";
     if(header==0)
     {
-        sendMsg->setMHeader(NACK);
+        EV<<"setting as NACK" << std::endl;
+        //EV<<"Read message payload:"<<recMsg->getMPayload()<< std::endl;
+        //EV<<"trailer: "<<recMsg->getMTrailer().to_string()<<std::endl;
+        sendMsg->setMHeader(currentSeqNum);
         sendMsg->setMType(NACK);
         type="NACK";
     }
     else
     {
-        sendMsg->setMHeader(ACK);
+        EV<<"setting as ACK" << std::endl;
+        sendMsg->setMHeader(currentSeqNum);
         sendMsg->setMType(ACK);
         type="ACK";
+        currentSeqNum++;
     }
 
-    if(randLP>(par("LP").doubleValue()))
+   if(randLP>(par("LP").doubleValue()))
     {
         //Adding Process time as a self message
-        sendDelayed((cMessage *)recMsg, par("PT").doubleValue() + par("TD").doubleValue(), "out");
+        sendDelayed((cMessage *)sendMsg, par("PT").doubleValue() + par("TD").doubleValue(), "out");
         Loss="No";
     }
 
     MyFile << "At time "<< simTime()+par("PT").doubleValue() <<", "<<getName()<<" sending "<< type << " with number["<<recMsg->getMHeader()<<"], loss ["<< Loss <<" ]"<<endl;
 
 
-    cancelAndDelete(sendMsg);
+    //cancelAndDelete(sendMsg); //revert comment
 }
+
+void Node::SendData(int i){
+    std::bitset<8> trailer;
+    EV <<"This is the lower frame side:" << left <<std::endl;
+    EV << "This is the upper frame:" << right << std::endl;
+
+    if(i>=MessageQueue.size())
+        return;
+    EV << "---------------------------------" << std::endl;
+    string stringMessage = MessageQueue[i];
+    EV<<"this is the message from file:"<<stringMessage << std::endl;
+    string errorCodes = ErrorCode[i];
+    EV<<"Error code:" << errorCodes << std::endl;
+
+    //check if this packet should be lost
+    if(errorCodes[1] == '1')
+    {
+        //ErrorCode[i][1] = '0'; //to avoid continuously losing the same packet over and over (reset error)
+        EV << "packet_loss"<< std::endl;
+    }
+    else{
+        MyMessage_Base* sendMsg=new MyMessage_Base();
+
+        //type of message
+        sendMsg->setMType(Data);
+
+        //sequence number
+        sendMsg->setMHeader(i);
+        EV << "this is the sent sequence number: "<< i << std::endl;
+
+        //Add framing
+        string framedMessage = ByteStuffing(stringMessage);
+        //EV<<"this is the framed message: " <<framedMessage<<std::endl;
+
+        //calculate parity
+        trailer = ParityCal(framedMessage);
+        //EV<<"this is the trialer: " <<trailer<<std::endl;
+        sendMsg->setMTrailer(trailer);
+
+        //check modification
+        if(errorCodes[0] == '1'){
+           framedMessage = ModifyMessage(framedMessage);
+        }
+
+        //set pay-load
+        sendMsg->setMPayload(framedMessage.c_str());
+        //EV<<"this is the framed message to c_str: "<<framedMessage.c_str()<<std::endl;
+
+        //send message
+        //original delay
+        simtime_t sendDelay = par("PT").doubleValue();
+        EV << "PT: "<<par("PT").doubleValue() << std::endl;
+        EV << "TD: "<<par("PT").doubleValue() << std::endl;
+        EV << "send delay: " << sendDelay <<std::endl;
+
+        //if there is errorDelay
+        if(errorCodes[3] == '1')
+        {
+            EV<<"there is a delay" << std::endl;
+            sendDelay += par("ED").doubleValue();
+        }
+
+        //scheduleAt(simTime() + sendDelay, (cMessage*)sendMsg);
+        sendDelayed((cMessage *)sendMsg, sendDelay, "out");
+
+        //duplication
+        if(errorCodes[2] == '1')
+        {
+            MyMessage_Base* duplicateMsg=new MyMessage_Base();
+            duplicateMsg->setMHeader(sendMsg->getMHeader());
+            duplicateMsg->setMPayload(sendMsg->getMPayload());
+            duplicateMsg->setMTrailer(sendMsg->getMTrailer());
+            duplicateMsg->setMType(Data);
+            EV << "There is duplication" << std::endl;
+            sendDelayed((cMessage *)duplicateMsg, sendDelay + par("DD").doubleValue(), "out");
+        }
+    }
+    ErrorCode[i] = "0000";
+}
+
+string Node::ModifyMessage(string message){
+   vector< bitset<8> > bitVector;
+   string modifiedMessage ="";
+   for (int i=0; i < message.size(); i++)
+       {
+           bitset<8> bit_msg1(message[i]);
+           bitVector.push_back(bit_msg1);
+       }
+   bitVector[1][2] = !bitVector[1][2];
+
+   for (int i = 0; i< bitVector.size(); i++){
+       char character = (char)bitVector[i].to_ulong();
+       modifiedMessage += character;
+   }
+   EV << "Modified message: " << modifiedMessage << std::endl;
+   return modifiedMessage;
+}
+
 
 void Node::Timer(){
     MyMessage_Base *myMsg = new MyMessage_Base();
     myMsg->setMType(TimeOut);
     myMsg->setMHeader(currentMsg);
+    if(left>=MessageQueue.size())
+        return;
     //Timer gets expired after TO
-    scheduleAt(simTime() + par("TO").doubleValue(), (cMessage*)myMsg);
+    scheduleAt(simTime() + par("TO").intValue(), (cMessage*)myMsg);
 
-    cancelAndDelete(myMsg);
+    //cancelAndDelete(myMsg); //revert comment
 }
 
 

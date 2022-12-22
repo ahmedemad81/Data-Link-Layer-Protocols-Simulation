@@ -481,7 +481,6 @@ std::string MyMessageDescriptor::getFieldValueAsString(void *object, int field, 
     switch (field) {
         case 0: return long2string(pp->getMHeader());
         case 1: return oppstring2string(pp->getMPayload());
-
         case 3: return long2string(pp->getMType());
         case 4: return long2string(pp->getAckNumber());
         default: return "";
