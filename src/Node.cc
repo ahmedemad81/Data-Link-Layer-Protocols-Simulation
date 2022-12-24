@@ -243,7 +243,7 @@ void Node:: ReceiveData(MyMessage_Base* recMsg)
 
 void Node::SendData(int i){
 
-    MyFile <<"At ["<<simTime()<<"] , "<<getName()<<" , Introducing channel error with code =["<<ErrorCode[i]<<"]";
+    MyFile <<"At ["<<simTime()<<"] , "<<getName()<<" , Introducing channel error with code =["<<ErrorCode[i]<<"]"<<endl;
     int errorflag=-1;
     string lostflag="No";
     int dupflag=0;
@@ -328,9 +328,20 @@ void Node::SendData(int i){
             sendDelayed((cMessage *)duplicateMsg, i* par("PT").doubleValue()+sendDelay + par("DD").doubleValue(), "out");
 
         }
-        MyFile<<"At time ["<<simTime()+i* par("PT").doubleValue()<<"], "<<getName()<< " [sent] frame with seq_num=["<<sendMsg->getMHeader()<<"] and payload=[ "<<sendMsg->getMPayload() <<"] and trailer=[ "<<sendMsg->getMTrailer().to_string()<< "] , Modified ["<<errorflag<<" ] , Lost ["<<lostflag<<"], Duplicate ["<<dupflag<<"], Delay["<<errorDelay<<"].";
-        if(dupflag=1)
-        MyFile<<"At time ["<<simTime()+i* par("PT").doubleValue()<<"], "<<getName()<< " [sent] frame with seq_num=["<<sendMsg->getMHeader()<<"] and payload=[ "<<sendMsg->getMPayload() <<"] and trailer=[ "<<sendMsg->getMTrailer().to_string()<< "] , Modified ["<<errorflag<<" ] , Lost ["<<lostflag<<"], Duplicate ["<<dupflag+1<<"], Delay["<<errorDelay+par("DD").doubleValue()<<"].";
+        if(i!=0)
+        {
+        MyFile<<"At time ["<<simTime()+i* par("PT").doubleValue()<<"], "<<getName()<< " [sent] frame with seq_num=["<<sendMsg->getMHeader()<<"] and payload=[ "<<sendMsg->getMPayload() <<"] and trailer=[ "<<sendMsg->getMTrailer().to_string()<< "] , Modified ["<<errorflag<<" ] , Lost ["<<lostflag<<"], Duplicate ["<<dupflag<<"], Delay["<<errorDelay<<"]."<<endl;
+        if(dupflag==1)
+        MyFile<<"At time ["<<simTime()+i* par("PT").doubleValue()<<"], "<<getName()<< " [sent] frame with seq_num=["<<sendMsg->getMHeader()<<"] and payload=[ "<<sendMsg->getMPayload() <<"] and trailer=[ "<<sendMsg->getMTrailer().to_string()<< "] , Modified ["<<errorflag<<" ] , Lost ["<<lostflag<<"], Duplicate ["<<dupflag+1<<"], Delay["<<errorDelay+par("DD").doubleValue()<<"]."<<endl;
+        }
+        else
+        {
+          MyFile<<"At time ["<<simTime()+par("PT").doubleValue()<<"], "<<getName()<< " [sent] frame with seq_num=["<<sendMsg->getMHeader()<<"] and payload=[ "<<sendMsg->getMPayload() <<"] and trailer=[ "<<sendMsg->getMTrailer().to_string()<< "] , Modified ["<<errorflag<<" ] , Lost ["<<lostflag<<"], Duplicate ["<<dupflag<<"], Delay["<<errorDelay<<"]."<<endl;
+          if(dupflag==1)
+          MyFile<<"At time ["<<simTime()+par("PT").doubleValue()<<"], "<<getName()<< " [sent] frame with seq_num=["<<sendMsg->getMHeader()<<"] and payload=[ "<<sendMsg->getMPayload() <<"] and trailer=[ "<<sendMsg->getMTrailer().to_string()<< "] , Modified ["<<errorflag<<" ] , Lost ["<<lostflag<<"], Duplicate ["<<dupflag+1<<"], Delay["<<errorDelay+par("DD").doubleValue()<<"]."<<endl;
+        }
+
+
     }
 
     ErrorCode[i] = "0000";
