@@ -30,7 +30,7 @@ void Node::handleMessage(cMessage *msg)
     {
         if (!strcmp(recMsg->getMPayload(),"Coordinator0"))
         {
-            string s = "D:/UNI/CCE sem 5/Networks project/Data-Link-Layer-Protocols-Simulation/src/Input/Node0.txt";
+            string s = "C:/omnetpp-5.6.2/samples/Project_Network/src/Input/Node0.txt";
             ReadFile(s);
             for(int i = left; i< right + 1; i++)
             {
@@ -41,7 +41,7 @@ void Node::handleMessage(cMessage *msg)
         }
         else if (!strcmp(recMsg->getMPayload(),"Coordinator1"))
         {
-            string s = "D:/UNI/CCE sem 5/Networks project/Data-Link-Layer-Protocols-Simulation/src/Input/Node1.txt";
+            string s = "C:/omnetpp-5.6.2/samples/Project_Network/src/Input/Node1.txt";
             ReadFile(s);
             for(int i = left; i < right + 1; i++)
               {
@@ -242,6 +242,13 @@ void Node:: ReceiveData(MyMessage_Base* recMsg)
 }
 
 void Node::SendData(int i){
+
+    MyFile <<"At ["<<simTime()<<"] , "<<getName()<<" , Introducing channel error with code =["<<ErrorCode[i]<<"]";
+    int errorflag=-1;
+    string lostflag="No";
+    int dupflag=0;
+    int errorDelay=0;
+
     std::bitset<8> trailer;
     EV <<"This is the lower frame side:" << left <<std::endl;
     EV << "This is the upper frame:" << right << std::endl;
@@ -259,6 +266,7 @@ void Node::SendData(int i){
     {
         //ErrorCode[i][1] = '0'; //to avoid continuously losing the same packet over and over (reset error)
         EV << "packet_loss"<< std::endl;
+        lostflag="Yes";
     }
     else{
         MyMessage_Base* sendMsg=new MyMessage_Base();
@@ -282,6 +290,7 @@ void Node::SendData(int i){
         //check modification
         if(errorCodes[0] == '1'){
            framedMessage = ModifyMessage(framedMessage);
+           errorflag=1;
         }
 
         //set pay-load
@@ -290,9 +299,9 @@ void Node::SendData(int i){
 
         //send message
         //original delay
-        simtime_t sendDelay = par("PT").doubleValue();
+        simtime_t sendDelay = par("PT").doubleValue()+par("TD").doubleValue();
         EV << "PT: "<<par("PT").doubleValue() << std::endl;
-        EV << "TD: "<<par("PT").doubleValue() << std::endl;
+        EV << "TD: "<<par("TD").doubleValue() << std::endl;
         EV << "send delay: " << sendDelay <<std::endl;
 
         //if there is errorDelay
@@ -300,23 +309,30 @@ void Node::SendData(int i){
         {
             EV<<"there is a delay" << std::endl;
             sendDelay += par("ED").doubleValue();
+            errorDelay= par("ED").doubleValue();
         }
 
-        //scheduleAt(simTime() + sendDelay, (cMessage*)sendMsg);
-        sendDelayed((cMessage *)sendMsg, sendDelay, "out");
+        //scheduleAt(simTime() + i*sendDelay+par("TD").doubleValue(), (cMessage*)sendMsg);
+        sendDelayed((cMessage *)sendMsg, i* par("PT").doubleValue()+sendDelay, "out");
 
         //duplication
         if(errorCodes[2] == '1')
         {
+            dupflag=1;
             MyMessage_Base* duplicateMsg=new MyMessage_Base();
             duplicateMsg->setMHeader(sendMsg->getMHeader());
             duplicateMsg->setMPayload(sendMsg->getMPayload());
             duplicateMsg->setMTrailer(sendMsg->getMTrailer());
             duplicateMsg->setMType(Data);
             EV << "There is duplication" << std::endl;
-            sendDelayed((cMessage *)duplicateMsg, sendDelay + par("DD").doubleValue(), "out");
+            sendDelayed((cMessage *)duplicateMsg, i* par("PT").doubleValue()+sendDelay + par("DD").doubleValue(), "out");
+
         }
+        MyFile<<"At time ["<<simTime()+i* par("PT").doubleValue()<<"], "<<getName()<< " [sent] frame with seq_num=["<<sendMsg->getMHeader()<<"] and payload=[ "<<sendMsg->getMPayload() <<"] and trailer=[ "<<sendMsg->getMTrailer().to_string()<< "] , Modified ["<<errorflag<<" ] , Lost ["<<lostflag<<"], Duplicate ["<<dupflag<<"], Delay["<<errorDelay<<"].";
+        if(dupflag=1)
+        MyFile<<"At time ["<<simTime()+i* par("PT").doubleValue()<<"], "<<getName()<< " [sent] frame with seq_num=["<<sendMsg->getMHeader()<<"] and payload=[ "<<sendMsg->getMPayload() <<"] and trailer=[ "<<sendMsg->getMTrailer().to_string()<< "] , Modified ["<<errorflag<<" ] , Lost ["<<lostflag<<"], Duplicate ["<<dupflag+1<<"], Delay["<<errorDelay+par("DD").doubleValue()<<"].";
     }
+
     ErrorCode[i] = "0000";
 }
 

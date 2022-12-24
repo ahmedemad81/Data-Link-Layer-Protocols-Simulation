@@ -177,35 +177,23 @@
       <tags>categoryTag:Help</tags>
     </sharedElements>
     <sharedElements xsi:type="advanced:Area" xmi:id="_Z825oHZqEe2YMdc3kVTk9A" elementId="org.eclipse.ui.editorss" selectedElement="_Z825oXZqEe2YMdc3kVTk9A">
-      <children xsi:type="basic:PartStack" xmi:id="_Z825oXZqEe2YMdc3kVTk9A" elementId="org.eclipse.e4.primaryDataStack" selectedElement="_128l8HZqEe2YMdc3kVTk9A">
+      <children xsi:type="basic:PartStack" xmi:id="_Z825oXZqEe2YMdc3kVTk9A" elementId="org.eclipse.e4.primaryDataStack" selectedElement="_0vBUkHZqEe2YMdc3kVTk9A">
         <tags>org.eclipse.e4.primaryDataStack</tags>
         <tags>EditorStack</tags>
         <tags>active</tags>
         <children xsi:type="basic:Part" xmi:id="_0vBUkHZqEe2YMdc3kVTk9A" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="Coordinator.cc" iconURI="platform:/plugin/org.eclipse.cdt.ui/icons/obj16/c_file_obj.gif" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.cdt.ui.editor.CEditor&quot; name=&quot;Coordinator.cc&quot; partName=&quot;Coordinator.cc&quot; title=&quot;Coordinator.cc&quot; tooltip=&quot;C:\omnetpp-5.6.2\samples\Project_Network\src\Coordinator.cc&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.ide.FileStoreEditorInputFactory&quot; uri=&quot;file:/C:/omnetpp-5.6.2/samples/Project_Network/src/Coordinator.cc&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;0&quot; selectionTopPixel=&quot;0&quot;/>&#xD;&#xA;&lt;/editor>"/>
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.cdt.ui.editor.CEditor&quot; name=&quot;Coordinator.cc&quot; partName=&quot;Coordinator.cc&quot; title=&quot;Coordinator.cc&quot; tooltip=&quot;C:\omnetpp-5.6.2\samples\Project_Network\src\Coordinator.cc&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.ide.FileStoreEditorInputFactory&quot; uri=&quot;file:/C:/omnetpp-5.6.2/samples/Project_Network/src/Coordinator.cc&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;0&quot; selectionTopPixel=&quot;371&quot;/>&#xD;&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>removeOnHide</tags>
           <tags>org.eclipse.cdt.ui.editor.CEditor</tags>
+          <tags>active</tags>
+          <tags>activeOnClose</tags>
         </children>
         <children xsi:type="basic:Part" xmi:id="_1SlUoHZqEe2YMdc3kVTk9A" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="Coordinator.h" iconURI="platform:/plugin/org.eclipse.cdt.ui/icons/obj16/c_file_obj.gif" closeable="true">
           <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.cdt.ui.editor.CEditor&quot; name=&quot;Coordinator.h&quot; partName=&quot;Coordinator.h&quot; title=&quot;Coordinator.h&quot; tooltip=&quot;C:\omnetpp-5.6.2\samples\Project_Network\src\Coordinator.h&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.ide.FileStoreEditorInputFactory&quot; uri=&quot;file:/C:/omnetpp-5.6.2/samples/Project_Network/src/Coordinator.h&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;0&quot; selectionTopPixel=&quot;0&quot;/>&#xD;&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>removeOnHide</tags>
           <tags>org.eclipse.cdt.ui.editor.CEditor</tags>
-        </children>
-        <children xsi:type="basic:Part" xmi:id="_1tP3YHZqEe2YMdc3kVTk9A" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="coordinator.txt" iconURI="platform:/plugin/org.eclipse.ui.editors/icons/full/obj16/file_obj.png" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.ui.DefaultTextEditor&quot; name=&quot;coordinator.txt&quot; partName=&quot;coordinator.txt&quot; title=&quot;coordinator.txt&quot; tooltip=&quot;C:\omnetpp-5.6.2\samples\Project_Network\src\coordinator.txt&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.ide.FileStoreEditorInputFactory&quot; uri=&quot;file:/C:/omnetpp-5.6.2/samples/Project_Network/src/coordinator.txt&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;0&quot; selectionTopPixel=&quot;0&quot;/>&#xD;&#xA;&lt;/editor>"/>
-          <tags>Editor</tags>
-          <tags>removeOnHide</tags>
-          <tags>org.eclipse.ui.DefaultTextEditor</tags>
-        </children>
-        <children xsi:type="basic:Part" xmi:id="_128l8HZqEe2YMdc3kVTk9A" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="hoss.h" iconURI="platform:/plugin/org.eclipse.cdt.ui/icons/obj16/c_file_obj.gif" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.cdt.ui.editor.CEditor&quot; name=&quot;hoss.h&quot; partName=&quot;hoss.h&quot; title=&quot;hoss.h&quot; tooltip=&quot;C:\omnetpp-5.6.2\samples\Project_Network\src\hoss.h&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.ide.FileStoreEditorInputFactory&quot; uri=&quot;file:/C:/omnetpp-5.6.2/samples/Project_Network/src/hoss.h&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;0&quot; selectionTopPixel=&quot;0&quot;/>&#xD;&#xA;&lt;/editor>"/>
-          <tags>Editor</tags>
-          <tags>removeOnHide</tags>
-          <tags>org.eclipse.cdt.ui.editor.CEditor</tags>
-          <tags>active</tags>
-          <tags>activeOnClose</tags>
         </children>
         <children xsi:type="basic:Part" xmi:id="_2Ae8cHZqEe2YMdc3kVTk9A" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="Makefile" iconURI="platform:/plugin/org.eclipse.cdt.make.ui/icons/etool16/makefile.gif" closeable="true">
           <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.cdt.make.editor&quot; name=&quot;Makefile&quot; partName=&quot;Makefile&quot; title=&quot;Makefile&quot; tooltip=&quot;C:\omnetpp-5.6.2\samples\Project_Network\src\Makefile&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.ide.FileStoreEditorInputFactory&quot; uri=&quot;file:/C:/omnetpp-5.6.2/samples/Project_Network/src/Makefile&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;0&quot; selectionTopPixel=&quot;0&quot;/>&#xD;&#xA;&lt;/editor>"/>
@@ -355,7 +343,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_ZqHj0HZqEe2YMdc3kVTk9A" elementId="org.eclipse.ui.workbench.file">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_ZqdiEHZqEe2YMdc3kVTk9A" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_YsXiOHZqEe2YMdc3kVTk9A"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="__JZNcIK6Ee2GHrX0rSQWYg" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_YsXiOHZqEe2YMdc3kVTk9A"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_ZqHj0XZqEe2YMdc3kVTk9A" elementId="group.edit" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -383,7 +371,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_ZqHj2HZqEe2YMdc3kVTk9A" elementId="org.eclipse.ui.workbench.navigate">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_ZqjosHZqEe2YMdc3kVTk9A" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_YsNKZXZqEe2YMdc3kVTk9A"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="__JsvcIK6Ee2GHrX0rSQWYg" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_YsNKZXZqEe2YMdc3kVTk9A"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_ZqHj2XZqEe2YMdc3kVTk9A" elementId="group.editor" toBeRendered="false">
         <tags>toolbarSeparator</tags>
