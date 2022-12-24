@@ -33,11 +33,12 @@ class Node : public cSimpleModule
     //Window variables
     int windowSize= 4;
     int left=0;
-    int right= 4;
+    int right= 3;
 
     //Go Back N
     int currentSeqNum=0; //receiver
     int currentMsg=0; //?
+    int windowCounter = 0;
 
   protected:
     virtual void initialize();
