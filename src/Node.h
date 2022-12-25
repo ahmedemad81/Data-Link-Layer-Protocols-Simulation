@@ -37,8 +37,9 @@ class Node : public cSimpleModule
 
     //Go Back N
     int currentSeqNum=0; //receiver
-    int currentMsg=0; //?
-    int windowCounter = 0;
+    int currentMsg=0;
+    vector<MyMessage_Base*> timerArray;
+    int timeOutCounter = 0;
 
   protected:
     virtual void initialize();
@@ -49,7 +50,7 @@ class Node : public cSimpleModule
     bitset<8> ParityCal(string S);
     bool ErrorDetection(string S, std::bitset<8> trailer);
     void ReceiveData(MyMessage_Base* recMsg);
-    void Timer();
+    void Timer(int index);
     void SendData(int i);
     string ModifyMessage(string message);
 };

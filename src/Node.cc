@@ -17,9 +17,6 @@
 Define_Module(Node);
 ofstream MyFile("out.txt");
 
-//this is forbidden figure out smth else?????
-MyMessage_Base *myTimer = new MyMessage_Base();
-
 void Node::initialize()
 {
     // TODO - Generated method body
@@ -40,8 +37,8 @@ void Node::handleMessage(cMessage *msg)
                 if(i>=MessageQueue.size())
                     break;
                 SendData(i);
+                Timer(i);
             }
-            Timer();
             //scheduleAt(simTime(), new cMessage(""));
         }
         else if (!strcmp(recMsg->getMPayload(),"Coordinator1"))
@@ -53,10 +50,11 @@ void Node::handleMessage(cMessage *msg)
                 if(i>=MessageQueue.size())
                     break;
                 SendData(i);
+                Timer(i);
               }
-            Timer();
             //scheduleAt(simTime(), new cMessage(""));
         }
+
     }
 
     else if (recMsg->getMType()==Data)
@@ -97,17 +95,29 @@ void Node::handleMessage(cMessage *msg)
         if(recMsg->getMHeader() == left )
         {
             EV<<"correct Ack received"<< std::endl;
-            windowCounter++;
+            //windowCounter++;
             if(recMsg->getMHeader() < MessageQueue.size())
             {
                 left++;
                 right++;
                 currentMsg++;
+                cancelEvent(timerArray[recMsg->getMHeader()]);
+                timeOutCounter++;
+                if(timeOutCounter == par("WS").intValue())
+                {
+                    MyMessage_Base *myMsg = new MyMessage_Base();
+                    myMsg->setMType(TimeOut);
+                    myMsg->setMHeader(currentMsg);
+                    if(left>=MessageQueue.size())
+                       return;
+                    scheduleAt(simTime(), (cMessage*)myMsg);
+                    timeOutCounter = 0;
+                }
             }
-            EV << "window counter: "<< windowCounter << std::endl;
+            //EV << "window counter: "<< windowCounter << std::endl;
 
             //time out for when the window is sent and all acks are received correctly
-            if(windowCounter == par("WS").intValue())
+            /*if(windowCounter == par("WS").intValue())
             {
                 // here we need to cancel the timeout that was called at the beginning of the cycle somehow?
                 windowCounter = 0;
@@ -118,7 +128,7 @@ void Node::handleMessage(cMessage *msg)
                    return;
                 scheduleAt(simTime(), (cMessage*)myMsg);
                 cancelAndDelete(myTimer);
-            }
+            }*/
         }
         else
         {
@@ -135,8 +145,8 @@ void Node::handleMessage(cMessage *msg)
            for(int i = left; i< right + 1; i++)
            {
                SendData(i);
+               Timer(i);
            }
-            Timer();
         //}
         //cancelAndDelete(msg);
     }
@@ -159,6 +169,11 @@ void Node::ReadFile(string File){
           }
           windowSize=par("WS").intValue()-1;
 
+          for(int i = 0; i < MessageQueue.size(); i++)
+          {
+              MyMessage_Base*msg=new MyMessage_Base();
+              timerArray.push_back(msg);
+          }
 }
 
 string Node::ByteStuffing(string S)
@@ -355,6 +370,7 @@ void Node::SendData(int i){
             EV << "There is duplication" << std::endl;
             sendDelayed((cMessage *)duplicateMsg, acummilativeParam* par("PT").doubleValue()+sendDelay + par("DD").doubleValue(), "out");
 
+
         }
         int seqNum = (sendMsg->getMHeader()) % par("WS").intValue();
         MyFile<<"At time ["<<simTime()+i* par("PT").doubleValue() + par("PT").doubleValue()<<"], "<<getName()<< " [sent] frame with seq_num=["<<seqNum<<"] and payload=[ "<<sendMsg->getMPayload() <<"] and trailer=[ "<<sendMsg->getMTrailer().to_string()<< "] , Modified ["<<errorflag<<" ] , Lost ["<<lostflag<<"], Duplicate ["<<dupflag<<"], Delay["<<errorDelay<<"]."<<endl<<endl;
@@ -384,14 +400,15 @@ string Node::ModifyMessage(string message){
 }
 
 
-void Node::Timer(){
+void Node::Timer(int index){
 
-    myTimer->setMType(TimeOut);
-    myTimer->setMHeader(currentMsg);
+    timerArray[index]->setMType(TimeOut);
+    timerArray[index]->setMHeader(index);
+
     if(left>=MessageQueue.size())
         return;
     //Timer gets expired after TO
-    scheduleAt(simTime() + par("TO").intValue(), (cMessage*)myTimer);
+    scheduleAt(simTime() + par("TO").intValue(), (cMessage*)timerArray[index]);
 
     //cancelAndDelete(myMsg); //revert comment
 }
