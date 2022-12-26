@@ -37,7 +37,7 @@ void Node::handleMessage(cMessage *msg)
                 if(i>=MessageQueue.size())
                     break;
                 SendData(i);
-                Timer(i);
+                //Timer(i);
             }
             //scheduleAt(simTime(), new cMessage(""));
         }
@@ -50,7 +50,7 @@ void Node::handleMessage(cMessage *msg)
                 if(i>=MessageQueue.size())
                     break;
                 SendData(i);
-                Timer(i);
+                //Timer(i);
               }
             //scheduleAt(simTime(), new cMessage(""));
         }
@@ -101,12 +101,16 @@ void Node::handleMessage(cMessage *msg)
                 left++;
                 right++;
                 currentMsg++;
+
+                //cancel timer of this packet
                 cancelEvent(timerArray[recMsg->getMHeader()]);
+
+                //if all ack in window are correct send next window
                 timeOutCounter++;
                 if(timeOutCounter == par("WS").intValue())
                 {
                     MyMessage_Base *myMsg = new MyMessage_Base();
-                    myMsg->setMType(TimeOut);
+                    myMsg->setMType(ReSend);
                     myMsg->setMHeader(currentMsg);
                     if(left>=MessageQueue.size())
                        return;
@@ -139,22 +143,32 @@ void Node::handleMessage(cMessage *msg)
     }
     else if(recMsg->getMType()==TimeOut)
     {
+        for(int index = 0; index < timerArray.size(); index++)
+        {
+            cancelEvent(timerArray[index]);
+        }
         EV<<"WE GOT A TIMEOUT"<< std::endl;
+        MyFile << "Time out event at time [" << simTime() << "], at" << getName() << "for frame with seq_num=[" << recMsg->getMHeader() % par("WS").intValue() <<"]"<<endl;
         //if (recMsg->getMHeader()==currentMsg) //revert comment
         //{
            for(int i = left; i< right + 1; i++)
            {
                SendData(i);
-               Timer(i);
            }
         //}
         //cancelAndDelete(msg);
     }
-    else if(recMsg->getMType() == DelayedMessage)
+    else if(recMsg->getMType() == ReSend)
     {
-        recMsg->setMType(Data);
-        sendDelayed((cMessage *)recMsg, par("TD").doubleValue(), "out");
-     }
+        for(int index = 0; index < timerArray.size(); index++)
+       {
+           cancelEvent(timerArray[index]);
+       }
+       for(int i = left; i< right + 1; i++)
+      {
+          SendData(i);
+      }
+    }
 
 }
 
@@ -285,7 +299,7 @@ void Node:: ReceiveData(MyMessage_Base* recMsg)
 void Node::SendData(int i){
     if(i >= MessageQueue.size())
         return;
-    MyFile <<"At ["<<simTime()<<"] , "<<getName()<<" , Introducing channel error with code =["<<ErrorCode[i]<<"]"<<endl <<endl;
+    MyFile <<"At [ " << simTime() + i * par("PT").doubleValue() << " ] , "<<getName()<<" , Introducing channel error with code =["<<ErrorCode[i]<<"]"<<endl <<endl;
     int errorflag=-1;
     string lostflag="No";
     int dupflag=0;
@@ -357,6 +371,7 @@ void Node::SendData(int i){
         }
         //scheduleAt(simTime() + i*sendDelay+par("TD").doubleValue(), (cMessage*)sendMsg);
         sendDelayed((cMessage *)sendMsg, acummilativeParam* par("PT").doubleValue()+sendDelay, "out");
+        Timer(i);
 
         //duplication
         if(errorCodes[2] == '1')
@@ -369,13 +384,11 @@ void Node::SendData(int i){
             duplicateMsg->setMType(Data);
             EV << "There is duplication" << std::endl;
             sendDelayed((cMessage *)duplicateMsg, acummilativeParam* par("PT").doubleValue()+sendDelay + par("DD").doubleValue(), "out");
-
-
         }
         int seqNum = (sendMsg->getMHeader()) % par("WS").intValue();
-        MyFile<<"At time ["<<simTime()+i* par("PT").doubleValue() + par("PT").doubleValue()<<"], "<<getName()<< " [sent] frame with seq_num=["<<seqNum<<"] and payload=[ "<<sendMsg->getMPayload() <<"] and trailer=[ "<<sendMsg->getMTrailer().to_string()<< "] , Modified ["<<errorflag<<" ] , Lost ["<<lostflag<<"], Duplicate ["<<dupflag<<"], Delay["<<errorDelay<<"]."<<endl<<endl;
+        MyFile<<"At time ["<< simTime()+i* par("PT").doubleValue() + par("PT").doubleValue() <<"], "<<getName()<< " [sent] frame with seq_num=["<<seqNum<<"] and payload=[ "<<sendMsg->getMPayload() <<"] and trailer=[ "<<sendMsg->getMTrailer().to_string()<< "] , Modified ["<<errorflag<<" ] , Lost ["<<lostflag<<"], Duplicate ["<<dupflag<<"], Delay["<<errorDelay<<"]."<<endl<<endl;
         if(dupflag==1)
-            MyFile<<"At time ["<<simTime()+i* par("PT").doubleValue()+ par("PT").doubleValue()<<"], "<<getName()<< " [sent] frame with seq_num=["<<seqNum<<"] and payload=[ "<<sendMsg->getMPayload() <<"] and trailer=[ "<<sendMsg->getMTrailer().to_string()<< "] , Modified ["<<errorflag<<" ] , Lost ["<<lostflag<<"], Duplicate ["<<dupflag+1<<"], Delay["<<errorDelay+par("DD").doubleValue()<<"]."<<endl<<endl;
+            MyFile<<"At time ["<<simTime()+i* par("PT").doubleValue()+ par("PT").doubleValue() <<"], "<<getName()<< " [sent] frame with seq_num=["<<seqNum<<"] and payload=[ "<<sendMsg->getMPayload() <<"] and trailer=[ "<<sendMsg->getMTrailer().to_string()<< "] , Modified ["<<errorflag<<" ] , Lost ["<<lostflag<<"], Duplicate ["<<dupflag+1<<"], Delay["<<errorDelay+par("DD").doubleValue()<<"]."<<endl<<endl;
     }
 
     ErrorCode[i] = "0000";

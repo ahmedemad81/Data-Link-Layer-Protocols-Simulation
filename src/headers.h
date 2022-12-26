@@ -14,5 +14,5 @@ enum {
     NACK,
     TimeOut,
     coordinator,
-    DelayedMessage
+    ReSend
 };
