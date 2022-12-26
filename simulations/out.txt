@@ -22,134 +22,134 @@ At time 3, Node1 sending ACK with number[2], loss [No ]
 
 At time 3.5, Node1 sending ACK with number[3], loss [No ]
 
-At [ 6.5 ] , Node0 , Introducing channel error with code =[0000]
+At [ 5 ] , Node0 , Introducing channel error with code =[0000]
 
-At time [7], Node0 [sent] frame with seq_num=[0] and payload=[ $/$eeee/$$] and trailer=[ 00000000] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
+At time [5.5], Node0 [sent] frame with seq_num=[0] and payload=[ $/$eeee/$$] and trailer=[ 00000000] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
 
-At [ 7 ] , Node0 , Introducing channel error with code =[0100]
+At [ 6 ] , Node0 , Introducing channel error with code =[0100]
 
-At [ 7.5 ] , Node0 , Introducing channel error with code =[1000]
+At [ 7 ] , Node0 , Introducing channel error with code =[1000]
 
-At time [8], Node0 [sent] frame with seq_num=[2] and payload=[ $fb$] and trailer=[ 00000000] , Modified [1 ] , Lost [No], Duplicate [0], Delay[0].
+At time [7.5], Node0 [sent] frame with seq_num=[2] and payload=[ $fb$] and trailer=[ 00000000] , Modified [1 ] , Lost [No], Duplicate [0], Delay[0].
 
 At [ 8 ] , Node0 , Introducing channel error with code =[0000]
 
 At time [8.5], Node0 [sent] frame with seq_num=[3] and payload=[ $cc$] and trailer=[ 00000000] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
 
-At time 6.5, Node1 sending ACK with number[0], loss [No ]
+At time 5, Node1 sending ACK with number[0], loss [No ]
 
-At time 7.5, Node1 sending NACK with number[2], loss [No ]
+At [ 10 ] , Node0 , Introducing channel error with code =[0001]
+
+At time [10.5], Node0 [sent] frame with seq_num=[0] and payload=[ $dd$] and trailer=[ 00000000] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[4].
+
+At time 7, Node1 sending NACK with number[2], loss [No ]
 
 At time 8, Node1 sending NACK with number[3], loss [No ]
 
-Time out event at time [18.5], atNode0for frame with seq_num=[2]
+At time 14, Node1 sending NACK with number[0], loss [No ]
+
+Time out event at time [18], atNode0for frame with seq_num=[2]
+At [ 20.5 ] , Node0 , Introducing channel error with code =[0000]
+
+At time [21], Node0 [sent] frame with seq_num=[1] and payload=[ $aa$] and trailer=[ 00000000] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
+
 At [ 21 ] , Node0 , Introducing channel error with code =[0000]
 
-At time [21.5], Node0 [sent] frame with seq_num=[1] and payload=[ $aa$] and trailer=[ 00000000] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
+At time [21.5], Node0 [sent] frame with seq_num=[2] and payload=[ $bb$] and trailer=[ 00000000] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
 
 At [ 21.5 ] , Node0 , Introducing channel error with code =[0000]
 
-At time [22], Node0 [sent] frame with seq_num=[2] and payload=[ $bb$] and trailer=[ 00000000] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
+At time [22], Node0 [sent] frame with seq_num=[3] and payload=[ $cc$] and trailer=[ 00000000] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
 
 At [ 22 ] , Node0 , Introducing channel error with code =[0000]
 
-At time [22.5], Node0 [sent] frame with seq_num=[3] and payload=[ $cc$] and trailer=[ 00000000] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
+At time [22.5], Node0 [sent] frame with seq_num=[0] and payload=[ $dd$] and trailer=[ 00000000] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
 
-At [ 22.5 ] , Node0 , Introducing channel error with code =[0001]
+At time 20.5, Node1 sending ACK with number[1], loss [No ]
 
-At time [23], Node0 [sent] frame with seq_num=[0] and payload=[ $dd$] and trailer=[ 00000000] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[4].
+At time 21, Node1 sending ACK with number[2], loss [No ]
 
-At time 21, Node1 sending ACK with number[1], loss [No ]
+At time 21.5, Node1 sending ACK with number[3], loss [No ]
 
-At time 21.5, Node1 sending ACK with number[2], loss [No ]
+At time 22, Node1 sending ACK with number[0], loss [No ]
 
-At time 22, Node1 sending ACK with number[3], loss [No ]
+At [ 26 ] , Node0 , Introducing channel error with code =[0100]
 
 At [ 27 ] , Node0 , Introducing channel error with code =[0000]
 
-At time [27.5], Node0 [sent] frame with seq_num=[0] and payload=[ $dd$] and trailer=[ 00000000] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
-
-At [ 27.5 ] , Node0 , Introducing channel error with code =[0100]
+At time [27.5], Node0 [sent] frame with seq_num=[2] and payload=[ $ta$] and trailer=[ 00010101] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
 
 At [ 28 ] , Node0 , Introducing channel error with code =[0000]
 
-At time [28.5], Node0 [sent] frame with seq_num=[2] and payload=[ $ta$] and trailer=[ 00010101] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
+At time [28.5], Node0 [sent] frame with seq_num=[3] and payload=[ $tb$] and trailer=[ 00010110] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
 
-At [ 28.5 ] , Node0 , Introducing channel error with code =[0000]
+At [ 29 ] , Node0 , Introducing channel error with code =[0000]
 
-At time [29], Node0 [sent] frame with seq_num=[3] and payload=[ $tb$] and trailer=[ 00010110] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
+At time [29.5], Node0 [sent] frame with seq_num=[0] and payload=[ $tc$] and trailer=[ 00010111] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
 
-At time 26.5, Node1 sending ACK with number[0], loss [No ]
+At time 27, Node1 sending NACK with number[2], loss [No ]
 
-At time 27, Node1 sending NACK with number[0], loss [No ]
+At time 28, Node1 sending NACK with number[3], loss [No ]
 
-At time 28, Node1 sending NACK with number[2], loss [No ]
+At time 29, Node1 sending NACK with number[0], loss [No ]
 
-At time 28.5, Node1 sending NACK with number[3], loss [No ]
+Time out event at time [36], atNode0for frame with seq_num=[2]
+At [ 40.5 ] , Node0 , Introducing channel error with code =[0000]
 
-Time out event at time [37], atNode0for frame with seq_num=[2]
+At time [41], Node0 [sent] frame with seq_num=[1] and payload=[ $ee$] and trailer=[ 00000000] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
+
+At [ 41 ] , Node0 , Introducing channel error with code =[0000]
+
+At time [41.5], Node0 [sent] frame with seq_num=[2] and payload=[ $ta$] and trailer=[ 00010101] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
+
 At [ 41.5 ] , Node0 , Introducing channel error with code =[0000]
 
-At time [42], Node0 [sent] frame with seq_num=[1] and payload=[ $ee$] and trailer=[ 00000000] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
+At time [42], Node0 [sent] frame with seq_num=[3] and payload=[ $tb$] and trailer=[ 00010110] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
 
 At [ 42 ] , Node0 , Introducing channel error with code =[0000]
 
-At time [42.5], Node0 [sent] frame with seq_num=[2] and payload=[ $ta$] and trailer=[ 00010101] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
+At time [42.5], Node0 [sent] frame with seq_num=[0] and payload=[ $tc$] and trailer=[ 00010111] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
 
-At [ 42.5 ] , Node0 , Introducing channel error with code =[0000]
+At time 40.5, Node1 sending ACK with number[1], loss [No ]
 
-At time [43], Node0 [sent] frame with seq_num=[3] and payload=[ $tb$] and trailer=[ 00010110] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
+At time 41, Node1 sending ACK with number[2], loss [No ]
 
-At [ 43 ] , Node0 , Introducing channel error with code =[0000]
+At time 41.5, Node1 sending ACK with number[3], loss [No ]
 
-At time [43.5], Node0 [sent] frame with seq_num=[0] and payload=[ $tc$] and trailer=[ 00010111] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
+At time 42, Node1 sending ACK with number[0], loss [No ]
 
-At time 41.5, Node1 sending ACK with number[1], loss [No ]
+At [ 48 ] , Node0 , Introducing channel error with code =[0011]
 
-At time 42, Node1 sending ACK with number[2], loss [No ]
+At time [48.5], Node0 [sent] frame with seq_num=[1] and payload=[ $fa$] and trailer=[ 00000111] , Modified [-1 ] , Lost [No], Duplicate [1], Delay[4].
 
-At time 42.5, Node1 sending ACK with number[3], loss [No ]
+At time [48.6], Node0 [sent] frame with seq_num=[1] and payload=[ $fa$] and trailer=[ 00000111] , Modified [-1 ] , Lost [No], Duplicate [2], Delay[4.1].
 
-At time 43, Node1 sending ACK with number[0], loss [No ]
+At [ 49 ] , Node0 , Introducing channel error with code =[1010]
 
-At [ 49.5 ] , Node0 , Introducing channel error with code =[0000]
+At time [49.5], Node0 [sent] frame with seq_num=[2] and payload=[ $bb$] and trailer=[ 00000100] , Modified [1 ] , Lost [No], Duplicate [1], Delay[0].
 
-At time [50], Node0 [sent] frame with seq_num=[0] and payload=[ $tc$] and trailer=[ 00010111] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
+At time [49.6], Node0 [sent] frame with seq_num=[2] and payload=[ $bb$] and trailer=[ 00000100] , Modified [1 ] , Lost [No], Duplicate [2], Delay[0.1].
 
-At [ 50 ] , Node0 , Introducing channel error with code =[0011]
+At [ 50 ] , Node0 , Introducing channel error with code =[1100]
 
-At time [50.5], Node0 [sent] frame with seq_num=[1] and payload=[ $fa$] and trailer=[ 00000111] , Modified [-1 ] , Lost [No], Duplicate [1], Delay[4].
+At time 49, Node1 sending NACK with number[2], loss [No ]
 
-At time [50.5], Node0 [sent] frame with seq_num=[1] and payload=[ $fa$] and trailer=[ 00000111] , Modified [-1 ] , Lost [No], Duplicate [2], Delay[4.1].
+At time 49.1, Node1 sending NACK with number[2], loss [No ]
 
-At [ 50.5 ] , Node0 , Introducing channel error with code =[1010]
+At time 52, Node1 sending ACK with number[1], loss [No ]
 
-At time [51], Node0 [sent] frame with seq_num=[2] and payload=[ $bb$] and trailer=[ 00000100] , Modified [1 ] , Lost [No], Duplicate [1], Delay[0].
+At time 52.1, Node1 sending NACK with number[1], loss [No ]
 
-At time [51], Node0 [sent] frame with seq_num=[2] and payload=[ $bb$] and trailer=[ 00000100] , Modified [1 ] , Lost [No], Duplicate [2], Delay[0.1].
+Time out event at time [56], atNode0for frame with seq_num=[2]
+At [ 63 ] , Node0 , Introducing channel error with code =[0000]
 
-At [ 51 ] , Node0 , Introducing channel error with code =[1100]
+At time [63.5], Node0 [sent] frame with seq_num=[2] and payload=[ $fb$] and trailer=[ 00000100] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
 
-At time 49.5, Node1 sending NACK with number[0], loss [No ]
+At [ 63.5 ] , Node0 , Introducing channel error with code =[0000]
 
-At time 50.5, Node1 sending NACK with number[2], loss [No ]
+At time [64], Node0 [sent] frame with seq_num=[3] and payload=[ $fc$] and trailer=[ 00000101] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
 
-At time 50.6, Node1 sending NACK with number[2], loss [No ]
+At time 63, Node1 sending ACK with number[2], loss [No ]
 
-At time 54, Node1 sending ACK with number[1], loss [No ]
-
-At time 54.1, Node1 sending NACK with number[1], loss [No ]
-
-Time out event at time [57.5], atNode0for frame with seq_num=[2]
-At [ 64.5 ] , Node0 , Introducing channel error with code =[0000]
-
-At time [65], Node0 [sent] frame with seq_num=[2] and payload=[ $fb$] and trailer=[ 00000100] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
-
-At [ 65 ] , Node0 , Introducing channel error with code =[0000]
-
-At time [65.5], Node0 [sent] frame with seq_num=[3] and payload=[ $fc$] and trailer=[ 00000101] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
-
-At time 64.5, Node1 sending ACK with number[2], loss [No ]
-
-At time 65, Node1 sending ACK with number[3], loss [No ]
+At time 63.5, Node1 sending ACK with number[3], loss [No ]
 
