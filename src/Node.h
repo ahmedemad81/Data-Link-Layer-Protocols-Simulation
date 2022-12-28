@@ -29,7 +29,7 @@ class Node : public cSimpleModule
     vector<string> ErrorCode;
     vector<string> MessageQueue;
 
-    volatile int randLP=int(uniform(0,100));
+    volatile double randLP=uniform(0,0.6);
     //Window variables
     int windowSize= 4;
     int left=0;

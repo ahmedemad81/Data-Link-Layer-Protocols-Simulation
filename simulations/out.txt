@@ -109,15 +109,15 @@ At time 46, Node1 sending ACK with number[1], loss [Yes ]
 
 At time 46.1, Node1 sending NACK with number[1], loss [No ]
 
-Time out event at time [51], atNode0for frame with seq_num=[2]
-At [ 51 ] , Node0 , Introducing channel error with code =[0000]
-At time [51.5], Node0 [sent] frame with seq_num=[2] and payload=[ $fb$] and trailer=[ 00000100] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
+Time out event at time [48.5], atNode0for frame with seq_num=[3]
+At [ 48.5 ] , Node0 , Introducing channel error with code =[0000]
+At time [49], Node0 [sent] frame with seq_num=[2] and payload=[ $fb$] and trailer=[ 00000100] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
 
-At time 53, Node1 sending ACK with number[2], loss [Yes ]
+At time 50.5, Node1 sending ACK with number[2], loss [Yes ]
 
-Time out event at time [62], atNode0for frame with seq_num=[3]
-At [ 62 ] , Node0 , Introducing channel error with code =[0000]
-At time [62.5], Node0 [sent] frame with seq_num=[3] and payload=[ $fc$] and trailer=[ 00000101] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
+Time out event at time [59.5], atNode0for frame with seq_num=[3]
+At [ 59.5 ] , Node0 , Introducing channel error with code =[0000]
+At time [60], Node0 [sent] frame with seq_num=[3] and payload=[ $fc$] and trailer=[ 00000101] , Modified [-1 ] , Lost [No], Duplicate [0], Delay[0].
 
-At time 64, Node1 sending ACK with number[3], loss [Yes ]
+At time 61.5, Node1 sending ACK with number[3], loss [Yes ]
 

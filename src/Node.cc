@@ -90,14 +90,24 @@ void Node::handleMessage(cMessage *msg)
         EV << "Ack received" << std::endl;
         EV << recMsg->getMHeader() << std::endl;
         // sender code
-        if (recMsg->getMHeader() == left)
+        if (recMsg->getMHeader() >= left)
         {
             EV << "correct Ack received" << std::endl;
             if (recMsg->getMHeader() < MessageQueue.size())
             {
-                left++;
-                right++;
-                currentMsg++;
+                if(recMsg->getMHeader() == left)
+                {
+                    left++;
+                    right++;
+                    currentMsg++;
+                }
+                else
+                {
+                    int i = recMsg->getMHeader() - left;
+                    left = left + i + 1;
+                    right = right+ i + 1;
+                    currentMsg = currentMsg+ i + 1;
+                }
 
                 // cancel timer of this packet
                 cancelEvent(timerArray[recMsg->getMHeader()]);
@@ -163,6 +173,8 @@ void Node::handleMessage(cMessage *msg)
         sendMsg->setMHeader(recMsg->getMHeader());
         EV << "setting ack header as: " << recMsg->getMHeader() << std::endl;
         sendMsg->setMType(ACK);
+        randLP=uniform(0,0.6);
+        EV << "random lp: " << randLP << std::endl;
         if (randLP >= (par("LP").doubleValue()))
         {
             // Adding Process time as a self message
