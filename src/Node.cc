@@ -287,7 +287,7 @@ void Node::ReceiveData(MyMessage_Base *recMsg)
     bitset<8> msgParity = recMsg->getMTrailer();
     bool header = ErrorDetection(msgPayLoad, msgParity);
     string type = "";
-    string Loss = "Yes";
+    string Loss = "No";
 
     if (header == 0)
     {
