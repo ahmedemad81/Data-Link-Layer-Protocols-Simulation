@@ -39,7 +39,8 @@ class Node : public cSimpleModule
     int currentSeqNum=0; //receiver
     int currentMsg=0;
     vector<MyMessage_Base*> timerArray;
-    int timeOutCounter = 0;
+    int counter = 0;
+
 
   protected:
     virtual void initialize();

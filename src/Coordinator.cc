@@ -25,7 +25,7 @@ void Coordinator::handleMessage(cMessage *msg)
 {
     // TODO - Generated method body
     //D:/UNI/CCE sem 5/Networks project/Data-Link-Layer-Protocols-Simulation/src/Input/ --nada
-    string s = "C:/omnetpp-5.6.2/samples/Project_Network/src/Input/coordinator.txt";
+    string s = "D:/UNI/CCE sem 5/Networks project/Data-Link-Layer-Protocols-Simulation/src/Input/coordinator.txt";
     ifstream file (s);
     string x,nodeSelected,delay;
     while (getline(file, x))

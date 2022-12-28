@@ -14,5 +14,8 @@ enum {
     NACK,
     TimeOut,
     coordinator,
-    ReSend
+    DoneProcessing,
+    WindowAdvanced,
+    AckProcessed,
+    NackProcessed
 };
